@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TimerConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: Process Execution Runtime</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.process.execution.timing</a> &gt; <span class="el_source">TimerConfiguration.java</span></div><h1>TimerConfiguration.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2024 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.core.process.execution.timing;
+
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapKeyColumn;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import org.ameba.integration.jpa.ApplicationEntity;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+/**
+ * A TimerConfiguration stores timer configuration when a workflow should be executed.
+ *
+ * @author Heiko Scherrer
+ */
+@Entity
+@Table(name = &quot;TMS_RSRV_TIMER_CONFIG&quot;)
+public class TimerConfiguration extends ApplicationEntity {
+
+    /** Name of the workflow to execute. */
+    @NotBlank
+    @Column(name = &quot;C_NAME&quot;)
+    private String name;
+    /** A descriptive text for the configuration. */
+    @Column(name = &quot;C_DESCRIPTION&quot;)
+    private String description;
+    /** A 6-digit Spring Cron expression, like {@literal 10 * * * * ?}. */
+    @NotBlank
+    @Column(name = &quot;C_CRON_EXPRESSION&quot;)
+    private String cronExpression;
+    /** An arbitrary map of runtime variables that are passed to the workflow execution. */
+<span class="nc" id="L55">    @ElementCollection(fetch = FetchType.EAGER)</span>
+    @CollectionTable(name = &quot;TMS_RSRV_TIMER_CONFIG_VARS&quot;,
+            joinColumns = {
+                    @JoinColumn(name = &quot;C_TC_PK&quot;, referencedColumnName = &quot;C_PK&quot;)
+            },
+            foreignKey = @ForeignKey(name = &quot;FK_TIMER_CFG_VAR&quot;)
+    )
+    @MapKeyColumn(name = &quot;C_KEY&quot;)
+    @Column(name = &quot;C_VALUE&quot;)
+    private Map&lt;String, String&gt; runtimeVariables = new HashMap&lt;&gt;();
+
+<span class="nc" id="L66">    protected TimerConfiguration() {}</span>
+
+    @Override
+    public void setPersistentKey(String pKey) {
+<span class="nc" id="L70">        super.setPersistentKey(pKey);</span>
+<span class="nc" id="L71">    }</span>
+
+    public String getName() {
+<span class="nc" id="L74">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="nc" id="L78">        this.name = name;</span>
+<span class="nc" id="L79">    }</span>
+
+    public String getDescription() {
+<span class="nc" id="L82">        return description;</span>
+    }
+
+    public void setDescription(String description) {
+<span class="nc" id="L86">        this.description = description;</span>
+<span class="nc" id="L87">    }</span>
+
+    public String getCronExpression() {
+<span class="nc" id="L90">        return cronExpression;</span>
+    }
+
+    public void setCronExpression(String cronExpression) {
+<span class="nc" id="L94">        this.cronExpression = cronExpression;</span>
+<span class="nc" id="L95">    }</span>
+
+    public Map&lt;String, String&gt; getRuntimeVariables() {
+<span class="nc" id="L98">        return runtimeVariables;</span>
+    }
+
+    public void setRuntimeVariables(Map&lt;String, String&gt; runtimeVariables) {
+<span class="nc" id="L102">        this.runtimeVariables = runtimeVariables;</span>
+<span class="nc" id="L103">    }</span>
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L113" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="nc" id="L115">        var that = (TimerConfiguration) o;</span>
+<span class="nc bnc" id="L116" title="All 8 branches missed.">        return Objects.equals(name, that.name) &amp;&amp; Objects.equals(description, that.description) &amp;&amp; Objects.equals(cronExpression, that.cronExpression) &amp;&amp; Objects.equals(runtimeVariables, that.runtimeVariables);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L126">        return Objects.hash(super.hashCode(), name, description, cronExpression, runtimeVariables);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
