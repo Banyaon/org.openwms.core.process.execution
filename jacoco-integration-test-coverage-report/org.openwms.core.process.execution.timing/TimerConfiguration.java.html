@@ -52,7 +52,7 @@ public class TimerConfiguration extends ApplicationEntity {
     @Column(name = &quot;C_CRON_EXPRESSION&quot;)
     private String cronExpression;
     /** An arbitrary map of runtime variables that are passed to the workflow execution. */
-<span class="nc" id="L55">    @ElementCollection(fetch = FetchType.EAGER)</span>
+<span class="fc" id="L55">    @ElementCollection(fetch = FetchType.EAGER)</span>
     @CollectionTable(name = &quot;TMS_RSRV_TIMER_CONFIG_VARS&quot;,
             joinColumns = {
                     @JoinColumn(name = &quot;C_TC_PK&quot;, referencedColumnName = &quot;C_PK&quot;)
@@ -63,44 +63,44 @@ public class TimerConfiguration extends ApplicationEntity {
     @Column(name = &quot;C_VALUE&quot;)
     private Map&lt;String, String&gt; runtimeVariables = new HashMap&lt;&gt;();
 
-<span class="nc" id="L66">    protected TimerConfiguration() {}</span>
+<span class="fc" id="L66">    protected TimerConfiguration() {}</span>
 
     @Override
     public void setPersistentKey(String pKey) {
-<span class="nc" id="L70">        super.setPersistentKey(pKey);</span>
-<span class="nc" id="L71">    }</span>
+<span class="fc" id="L70">        super.setPersistentKey(pKey);</span>
+<span class="fc" id="L71">    }</span>
 
     public String getName() {
-<span class="nc" id="L74">        return name;</span>
+<span class="fc" id="L74">        return name;</span>
     }
 
     public void setName(String name) {
-<span class="nc" id="L78">        this.name = name;</span>
-<span class="nc" id="L79">    }</span>
+<span class="fc" id="L78">        this.name = name;</span>
+<span class="fc" id="L79">    }</span>
 
     public String getDescription() {
-<span class="nc" id="L82">        return description;</span>
+<span class="fc" id="L82">        return description;</span>
     }
 
     public void setDescription(String description) {
-<span class="nc" id="L86">        this.description = description;</span>
-<span class="nc" id="L87">    }</span>
+<span class="fc" id="L86">        this.description = description;</span>
+<span class="fc" id="L87">    }</span>
 
     public String getCronExpression() {
-<span class="nc" id="L90">        return cronExpression;</span>
+<span class="fc" id="L90">        return cronExpression;</span>
     }
 
     public void setCronExpression(String cronExpression) {
-<span class="nc" id="L94">        this.cronExpression = cronExpression;</span>
-<span class="nc" id="L95">    }</span>
+<span class="fc" id="L94">        this.cronExpression = cronExpression;</span>
+<span class="fc" id="L95">    }</span>
 
     public Map&lt;String, String&gt; getRuntimeVariables() {
-<span class="nc" id="L98">        return runtimeVariables;</span>
+<span class="fc" id="L98">        return runtimeVariables;</span>
     }
 
     public void setRuntimeVariables(Map&lt;String, String&gt; runtimeVariables) {
-<span class="nc" id="L102">        this.runtimeVariables = runtimeVariables;</span>
-<span class="nc" id="L103">    }</span>
+<span class="fc" id="L102">        this.runtimeVariables = runtimeVariables;</span>
+<span class="fc" id="L103">    }</span>
 
     /**
      * {@inheritDoc}

@@ -10,54 +10,54 @@ import org.springframework.stereotype.Component;
     value = &quot;org.mapstruct.ap.MappingProcessor&quot;
 )
 @Component
-<span class="nc" id="L13">public class TimerConfigurationMapperImpl implements TimerConfigurationMapper {</span>
+<span class="fc" id="L13">public class TimerConfigurationMapperImpl implements TimerConfigurationMapper {</span>
 
     @Override
     public TimerConfiguration convert(TimerConfigurationVO vo) {
-<span class="nc bnc" id="L17" title="All 2 branches missed.">        if ( vo == null ) {</span>
+<span class="pc bpc" id="L17" title="1 of 2 branches missed.">        if ( vo == null ) {</span>
 <span class="nc" id="L18">            return null;</span>
         }
 
-<span class="nc" id="L21">        TimerConfiguration timerConfiguration = new TimerConfiguration();</span>
+<span class="fc" id="L21">        TimerConfiguration timerConfiguration = new TimerConfiguration();</span>
 
-<span class="nc" id="L23">        timerConfiguration.setPersistentKey( vo.pKey() );</span>
-<span class="nc" id="L24">        timerConfiguration.setName( vo.name() );</span>
-<span class="nc" id="L25">        timerConfiguration.setDescription( vo.description() );</span>
-<span class="nc" id="L26">        timerConfiguration.setCronExpression( vo.cronExpression() );</span>
-<span class="nc" id="L27">        Map&lt;String, String&gt; map = vo.runtimeVariables();</span>
-<span class="nc bnc" id="L28" title="All 2 branches missed.">        if ( map != null ) {</span>
-<span class="nc" id="L29">            timerConfiguration.setRuntimeVariables( new LinkedHashMap&lt;String, String&gt;( map ) );</span>
+<span class="fc" id="L23">        timerConfiguration.setPersistentKey( vo.pKey() );</span>
+<span class="fc" id="L24">        timerConfiguration.setName( vo.name() );</span>
+<span class="fc" id="L25">        timerConfiguration.setDescription( vo.description() );</span>
+<span class="fc" id="L26">        timerConfiguration.setCronExpression( vo.cronExpression() );</span>
+<span class="fc" id="L27">        Map&lt;String, String&gt; map = vo.runtimeVariables();</span>
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        if ( map != null ) {</span>
+<span class="fc" id="L29">            timerConfiguration.setRuntimeVariables( new LinkedHashMap&lt;String, String&gt;( map ) );</span>
         }
 
-<span class="nc" id="L32">        return timerConfiguration;</span>
+<span class="fc" id="L32">        return timerConfiguration;</span>
     }
 
     @Override
     public TimerConfigurationVO convertToVO(TimerConfiguration eo) {
-<span class="nc bnc" id="L37" title="All 2 branches missed.">        if ( eo == null ) {</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        if ( eo == null ) {</span>
 <span class="nc" id="L38">            return null;</span>
         }
 
-<span class="nc" id="L41">        String pKey = null;</span>
-<span class="nc" id="L42">        String name = null;</span>
-<span class="nc" id="L43">        String description = null;</span>
-<span class="nc" id="L44">        String cronExpression = null;</span>
-<span class="nc" id="L45">        Map&lt;String, String&gt; runtimeVariables = null;</span>
+<span class="fc" id="L41">        String pKey = null;</span>
+<span class="fc" id="L42">        String name = null;</span>
+<span class="fc" id="L43">        String description = null;</span>
+<span class="fc" id="L44">        String cronExpression = null;</span>
+<span class="fc" id="L45">        Map&lt;String, String&gt; runtimeVariables = null;</span>
 
-<span class="nc bnc" id="L47" title="All 2 branches missed.">        if ( eo.hasPersistentKey() ) {</span>
-<span class="nc" id="L48">            pKey = eo.getPersistentKey();</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        if ( eo.hasPersistentKey() ) {</span>
+<span class="fc" id="L48">            pKey = eo.getPersistentKey();</span>
         }
-<span class="nc" id="L50">        name = eo.getName();</span>
-<span class="nc" id="L51">        description = eo.getDescription();</span>
-<span class="nc" id="L52">        cronExpression = eo.getCronExpression();</span>
-<span class="nc" id="L53">        Map&lt;String, String&gt; map = eo.getRuntimeVariables();</span>
-<span class="nc bnc" id="L54" title="All 2 branches missed.">        if ( map != null ) {</span>
-<span class="nc" id="L55">            runtimeVariables = new LinkedHashMap&lt;String, String&gt;( map );</span>
+<span class="fc" id="L50">        name = eo.getName();</span>
+<span class="fc" id="L51">        description = eo.getDescription();</span>
+<span class="fc" id="L52">        cronExpression = eo.getCronExpression();</span>
+<span class="fc" id="L53">        Map&lt;String, String&gt; map = eo.getRuntimeVariables();</span>
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        if ( map != null ) {</span>
+<span class="fc" id="L55">            runtimeVariables = new LinkedHashMap&lt;String, String&gt;( map );</span>
         }
 
-<span class="nc" id="L58">        TimerConfigurationVO timerConfigurationVO = new TimerConfigurationVO( pKey, name, description, cronExpression, runtimeVariables );</span>
+<span class="fc" id="L58">        TimerConfigurationVO timerConfigurationVO = new TimerConfigurationVO( pKey, name, description, cronExpression, runtimeVariables );</span>
 
-<span class="nc" id="L60">        return timerConfigurationVO;</span>
+<span class="fc" id="L60">        return timerConfigurationVO;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

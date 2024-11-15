@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TimeTriggeredWorkflowExecutor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: Process Execution Runtime</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.process.execution.timing</a> &gt; <span class="el_source">TimeTriggeredWorkflowExecutor.java</span></div><h1>TimeTriggeredWorkflowExecutor.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2024 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.core.process.execution.timing;
+
+import jakarta.annotation.PostConstruct;
+import org.openwms.core.process.execution.spi.ProgramExecutor;
+import org.openwms.core.process.execution.timing.events.ConfigurationEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.event.TransactionalEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledFuture;
+
+/**
+ * A TimeTriggeredWorkflowExecutor.
+ *
+ * @author Heiko Scherrer
+ */
+@Service
+class TimeTriggeredWorkflowExecutor {
+
+<span class="fc" id="L41">    private static final Logger LOGGER = LoggerFactory.getLogger(TimeTriggeredWorkflowExecutor.class);</span>
+<span class="fc" id="L42">    private final Map&lt;String, ScheduledFuture&lt;?&gt;&gt; scheduledFutureMap = new ConcurrentHashMap&lt;&gt;();</span>
+    private final ProgramExecutor programExecutor;
+    private final TaskScheduler taskScheduler;
+    private final TimerConfigurationService timerConfigurationService;
+
+<span class="fc" id="L47">    TimeTriggeredWorkflowExecutor(ProgramExecutor programExecutor, TaskScheduler taskScheduler, TimerConfigurationService timerConfigurationService) {</span>
+<span class="fc" id="L48">        this.programExecutor = programExecutor;</span>
+<span class="fc" id="L49">        this.taskScheduler = taskScheduler;</span>
+<span class="fc" id="L50">        this.timerConfigurationService = timerConfigurationService;</span>
+<span class="fc" id="L51">    }</span>
+
+    @TransactionalEventListener
+    public void onEvent(ConfigurationEvent configurationEvent) {
+<span class="pc bpc" id="L55" title="2 of 4 branches missed.">        switch (configurationEvent.getType()) {</span>
+            case CREATED -&gt; {
+<span class="fc" id="L57">                createAndSchedule((TimerConfiguration) configurationEvent.getSource());</span>
+<span class="fc" id="L58">                LOGGER.info(&quot;New TimerConfiguration created&quot;);</span>
+<span class="fc" id="L59">            }</span>
+<span class="nc" id="L60">            case UPDATED -&gt; LOGGER.info(&quot;New TimerConfiguration updated&quot;);</span>
+            case DELETED -&gt; {
+<span class="fc" id="L62">                var pKey = (String) configurationEvent.getSource();</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">                for (var entries : scheduledFutureMap.entrySet()) {</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">                    if (pKey.equals(entries.getKey())) {</span>
+<span class="fc" id="L65">                        entries.getValue().cancel(true);</span>
+<span class="fc" id="L66">                        scheduledFutureMap.remove(pKey);</span>
+<span class="fc" id="L67">                        LOGGER.info(&quot;New TimerConfiguration deleted&quot;);</span>
+<span class="fc" id="L68">                        break;</span>
+                    }
+<span class="nc" id="L70">                }</span>
+<span class="fc" id="L71">            }</span>
+<span class="nc" id="L72">            default -&gt; LOGGER.warn(&quot;Unknown ConfigurationEvent type: {}&quot;, configurationEvent.getType());</span>
+        }
+<span class="fc" id="L74">    }</span>
+
+    @PostConstruct
+    public void execute() {
+<span class="fc" id="L78">        var timerConfigurations = timerConfigurationService.loadConfigurations();</span>
+<span class="fc" id="L79">        timerConfigurations.forEach(this::createAndSchedule);</span>
+<span class="fc" id="L80">    }</span>
+
+    private void createAndSchedule(TimerConfiguration tc) {
+<span class="fc" id="L83">        var cronTrigger = new CronTrigger(tc.getCronExpression());</span>
+<span class="fc" id="L84">        var scheduledFuture = taskScheduler.schedule(</span>
+<span class="nc" id="L85">                () -&gt; programExecutor.execute(tc.getName(), new HashMap&lt;&gt;(tc.getRuntimeVariables())),</span>
+                cronTrigger);
+<span class="fc" id="L87">        scheduledFutureMap.put(tc.getPersistentKey(), scheduledFuture);</span>
+<span class="fc" id="L88">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

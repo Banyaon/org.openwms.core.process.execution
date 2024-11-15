@@ -36,15 +36,15 @@ import static org.ameba.LoggingCategories.BOOT;
 @Component
 class CamundaExecutor extends AbstractExecutor&lt;ProcessDefinition&gt; {
 
-<span class="nc" id="L39">    private static final Logger BOOT_LOGGER = LoggerFactory.getLogger(BOOT);</span>
+<span class="fc" id="L39">    private static final Logger BOOT_LOGGER = LoggerFactory.getLogger(BOOT);</span>
     private final RuntimeService runtimeService;
     private final RepositoryService repositoryService;
 
-<span class="nc" id="L43">    CamundaExecutor(RuntimeService runtimeService, RepositoryService repositoryService) {</span>
-<span class="nc" id="L44">        this.runtimeService = runtimeService;</span>
-<span class="nc" id="L45">        this.repositoryService = repositoryService;</span>
-<span class="nc" id="L46">        BOOT_LOGGER.info(&quot;-- w/ Camunda executor&quot;);</span>
-<span class="nc" id="L47">    }</span>
+<span class="fc" id="L43">    CamundaExecutor(RuntimeService runtimeService, RepositoryService repositoryService) {</span>
+<span class="fc" id="L44">        this.runtimeService = runtimeService;</span>
+<span class="fc" id="L45">        this.repositoryService = repositoryService;</span>
+<span class="fc" id="L46">        BOOT_LOGGER.info(&quot;-- w/ Camunda executor&quot;);</span>
+<span class="fc" id="L47">    }</span>
 
     /**
      * {@inheritDoc}

@@ -27,7 +27,7 @@ public class ConfigurationEvent extends RootApplicationEvent {
     private final EventType type;
 
     public EventType getType() {
-<span class="nc" id="L30">        return type;</span>
+<span class="fc" id="L30">        return type;</span>
     }
 
     /**
@@ -36,14 +36,14 @@ public class ConfigurationEvent extends RootApplicationEvent {
      * @param source The event sender, never {@literal null}
      */
     public ConfigurationEvent(Object source, EventType type) {
-<span class="nc" id="L39">        super(source);</span>
-<span class="nc" id="L40">        this.type = type;</span>
-<span class="nc" id="L41">    }</span>
+<span class="fc" id="L39">        super(source);</span>
+<span class="fc" id="L40">        this.type = type;</span>
+<span class="fc" id="L41">    }</span>
 
-<span class="nc" id="L43">    public enum EventType {</span>
-<span class="nc" id="L44">        CREATED,</span>
-<span class="nc" id="L45">        UPDATED,</span>
-<span class="nc" id="L46">        DELETED;</span>
+<span class="fc" id="L43">    public enum EventType {</span>
+<span class="fc" id="L44">        CREATED,</span>
+<span class="fc" id="L45">        UPDATED,</span>
+<span class="fc" id="L46">        DELETED;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
