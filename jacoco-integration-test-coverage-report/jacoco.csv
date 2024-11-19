@@ -1,7 +1,5 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
 OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.timing.impl,TimerConfigurationServiceImpl,12,51,0,0,0,12,1,5,1,5
-OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.spi,ActivitiExecutor,34,0,0,0,9,0,4,0,4,0
-OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.spi,CamundaExecutor,18,16,0,0,3,6,2,2,2,2
 OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.spi,AbstractExecutor,32,7,4,0,7,2,3,2,1,2
 OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.timing,TimeTriggeredWorkflowExecutor,46,81,5,3,9,22,5,6,1,5
 OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.timing,TimerConfigurationMapperImpl,4,86,5,5,2,27,5,3,0,3
@@ -10,7 +8,11 @@ OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.t
 OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution,RuntimeConfiguration,0,21,0,0,0,7,0,2,0,2
 OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution,ProgramResult,18,0,0,0,6,0,6,0,6,0
 OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.timing.api,TimerConfigurationVO,0,26,0,0,0,3,0,2,0,2
+OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.api,WorkflowEvent,115,0,14,0,25,0,19,0,12,0
+OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.spi.activiti,ActivitiAmqpEventPropagator,64,13,4,0,11,5,4,2,2,2
+OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.spi.activiti,ActivitiExecutor,56,0,4,0,14,0,6,0,4,0
 OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.timing.events,ConfigurationEvent,0,10,0,0,0,4,0,2,0,2
 OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.timing.events,ConfigurationEvent.EventType,0,21,0,0,0,4,0,1,0,1
+OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.spi.camunda,CamundaExecutor,18,16,0,0,3,6,2,2,2,2
 OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.app,RoutingRuntimeSecurityConfiguration,0,26,0,0,0,5,0,3,0,3
 OpenWMS.org CORE: Process Execution Runtime,org.openwms.core.process.execution.app,DisableActivitiAutoConfigurations,0,3,0,0,0,1,0,1,0,1

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WorkflowEvent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: Process Execution Runtime</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.process.execution.api</a> &gt; <span class="el_source">WorkflowEvent.java</span></div><h1>WorkflowEvent.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2024 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.core.process.execution.api;
+
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotBlank;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+/**
+ * A WorkflowEvent signals a change in the workflow execution.
+ *
+ * @author Heiko Scherrer
+ */
+public class WorkflowEvent implements Serializable {
+
+    /** The type of event. */
+    @NotBlank
+    private String eventType;
+    /** The ID of the execution this event is associated with (nullable). */
+    @Nullable
+    private String executionId;
+    /** The ID of the execution this event is associated with (nullable). */
+    @Nullable
+    private String processDefinitionId;
+    /** The ID of the process definition this event is associated with (nullable). */
+    @Nullable
+    private String processInstanceId;
+
+<span class="nc" id="L44">    public WorkflowEvent() {</span>
+<span class="nc" id="L45">    }</span>
+
+<span class="nc" id="L47">    public WorkflowEvent(String eventType, String executionId, String processDefinitionId, String processInstanceId) {</span>
+<span class="nc" id="L48">        this.eventType = eventType;</span>
+<span class="nc" id="L49">        this.executionId = executionId;</span>
+<span class="nc" id="L50">        this.processDefinitionId = processDefinitionId;</span>
+<span class="nc" id="L51">        this.processInstanceId = processInstanceId;</span>
+<span class="nc" id="L52">    }</span>
+
+    public String getEventType() {
+<span class="nc" id="L55">        return eventType;</span>
+    }
+
+    public void setEventType(String eventType) {
+<span class="nc" id="L59">        this.eventType = eventType;</span>
+<span class="nc" id="L60">    }</span>
+
+    public String getExecutionId() {
+<span class="nc" id="L63">        return executionId;</span>
+    }
+
+    public void setExecutionId(String executionId) {
+<span class="nc" id="L67">        this.executionId = executionId;</span>
+<span class="nc" id="L68">    }</span>
+
+    public String getProcessDefinitionId() {
+<span class="nc" id="L71">        return processDefinitionId;</span>
+    }
+
+    public void setProcessDefinitionId(String processDefinitionId) {
+<span class="nc" id="L75">        this.processDefinitionId = processDefinitionId;</span>
+<span class="nc" id="L76">    }</span>
+
+    public String getProcessInstanceId() {
+<span class="nc" id="L79">        return processInstanceId;</span>
+    }
+
+    public void setProcessInstanceId(String processInstanceId) {
+<span class="nc" id="L83">        this.processInstanceId = processInstanceId;</span>
+<span class="nc" id="L84">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L89" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L90">        WorkflowEvent that = (WorkflowEvent) o;</span>
+<span class="nc bnc" id="L91" title="All 8 branches missed.">        return Objects.equals(eventType, that.eventType) &amp;&amp; Objects.equals(executionId, that.executionId) &amp;&amp; Objects.equals(processDefinitionId, that.processDefinitionId) &amp;&amp; Objects.equals(processInstanceId, that.processInstanceId);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L96">        return Objects.hash(eventType, executionId, processDefinitionId, processInstanceId);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

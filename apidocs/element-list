@@ -1,6 +1,9 @@
 org.openwms.core.process.execution
+org.openwms.core.process.execution.api
 org.openwms.core.process.execution.app
 org.openwms.core.process.execution.spi
+org.openwms.core.process.execution.spi.activiti
+org.openwms.core.process.execution.spi.camunda
 org.openwms.core.process.execution.timing
 org.openwms.core.process.execution.timing.api
 org.openwms.core.process.execution.timing.events
