@@ -43,16 +43,18 @@ class ActivitiExecutor extends AbstractExecutor&lt;ProcessDefinition&gt; {
 
 <span class="nc" id="L44">    private static final Logger BOOT_LOGGER = LoggerFactory.getLogger(BOOT);</span>
     private final RuntimeService runtimeService;
+    private final ProcessInstanceExecutor processInstanceExecutor;
     private final RepositoryService repositoryService;
     private final List&lt;ActivitiEventListener&gt; eventListeners;
 
-    ActivitiExecutor(RuntimeService runtimeService, RepositoryService repositoryService,
-<span class="nc" id="L50">            @Autowired(required = false) List&lt;ActivitiEventListener&gt; eventListeners) {</span>
-<span class="nc" id="L51">        this.runtimeService = runtimeService;</span>
-<span class="nc" id="L52">        this.repositoryService = repositoryService;</span>
-<span class="nc" id="L53">        this.eventListeners = eventListeners;</span>
-<span class="nc" id="L54">        BOOT_LOGGER.info(&quot;-- w/ Activiti executor&quot;);</span>
-<span class="nc" id="L55">    }</span>
+    ActivitiExecutor(RuntimeService runtimeService, ProcessInstanceExecutor processInstanceExecutor, RepositoryService repositoryService,
+<span class="nc" id="L51">            @Autowired(required = false) List&lt;ActivitiEventListener&gt; eventListeners) {</span>
+<span class="nc" id="L52">        this.runtimeService = runtimeService;</span>
+<span class="nc" id="L53">        this.processInstanceExecutor = processInstanceExecutor;</span>
+<span class="nc" id="L54">        this.repositoryService = repositoryService;</span>
+<span class="nc" id="L55">        this.eventListeners = eventListeners;</span>
+<span class="nc" id="L56">        BOOT_LOGGER.info(&quot;-- w/ Activiti executor&quot;);</span>
+<span class="nc" id="L57">    }</span>
 
     /**
      * {@inheritDoc}
@@ -60,7 +62,7 @@ class ActivitiExecutor extends AbstractExecutor&lt;ProcessDefinition&gt; {
     @Measured
     @Override
     protected ProcessDefinition loadProcessDefinition(String processName) {
-<span class="nc" id="L63">        return repositoryService.createProcessDefinitionQuery().processDefinitionKey(processName).active().latestVersion().singleResult();</span>
+<span class="nc" id="L65">        return repositoryService.createProcessDefinitionQuery().processDefinitionKey(processName).active().latestVersion().singleResult();</span>
     }
 
     /**
@@ -69,12 +71,12 @@ class ActivitiExecutor extends AbstractExecutor&lt;ProcessDefinition&gt; {
     @Measured
     @Override
     protected void executeProcessDefinition(ProcessDefinition processDefinition, Map&lt;String, Object&gt; runtimeVariables) {
-<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (eventListeners != null) {</span>
-<span class="nc bnc" id="L73" title="All 2 branches missed.">            for (var eventListener : eventListeners) {</span>
-<span class="nc" id="L74">                runtimeService.addEventListener(eventListener);</span>
-<span class="nc" id="L75">            }</span>
+<span class="nc" id="L74">        processInstanceExecutor.execute(processDefinition, runtimeVariables);</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        if (eventListeners != null) {</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">            for (var eventListener : eventListeners) {</span>
+<span class="nc" id="L77">                runtimeService.addEventListener(eventListener);</span>
+<span class="nc" id="L78">            }</span>
         }
-<span class="nc" id="L77">        runtimeService.startProcessInstanceById(processDefinition.getId(), runtimeVariables);</span>
-<span class="nc" id="L78">    }</span>
+<span class="nc" id="L80">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

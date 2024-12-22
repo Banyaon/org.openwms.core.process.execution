@@ -18,6 +18,7 @@ package org.openwms.core.process.execution;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 /**
@@ -25,17 +26,18 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
  *
  * @author Heiko Scherrer
  */
+@EnableAsync
 @Configuration
-<span class="fc" id="L29">public class RuntimeConfiguration {</span>
+<span class="fc" id="L31">public class RuntimeConfiguration {</span>
 
     @Bean
     public TaskScheduler taskScheduler() {
-<span class="fc" id="L33">        var scheduler = new ThreadPoolTaskScheduler();</span>
-<span class="fc" id="L34">        scheduler.setPoolSize(5);</span>
-<span class="fc" id="L35">        scheduler.setThreadNamePrefix(&quot;RoutingModule-&quot;);</span>
-<span class="fc" id="L36">        scheduler.setWaitForTasksToCompleteOnShutdown(true);</span>
-<span class="fc" id="L37">        scheduler.setRemoveOnCancelPolicy(true);</span>
-<span class="fc" id="L38">        return scheduler;</span>
+<span class="fc" id="L35">        var scheduler = new ThreadPoolTaskScheduler();</span>
+<span class="fc" id="L36">        scheduler.setPoolSize(5);</span>
+<span class="fc" id="L37">        scheduler.setThreadNamePrefix(&quot;ProcessExecution-&quot;);</span>
+<span class="fc" id="L38">        scheduler.setWaitForTasksToCompleteOnShutdown(true);</span>
+<span class="fc" id="L39">        scheduler.setRemoveOnCancelPolicy(true);</span>
+<span class="fc" id="L40">        return scheduler;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

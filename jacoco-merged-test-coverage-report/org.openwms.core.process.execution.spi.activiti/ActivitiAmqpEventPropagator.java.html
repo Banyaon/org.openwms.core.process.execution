@@ -15,6 +15,7 @@
  */
 package org.openwms.core.process.execution.spi.activiti;
 
+import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.delegate.event.ActivitiEvent;
 import org.activiti.engine.delegate.event.ActivitiEventListener;
 import org.ameba.annotation.Measured;
@@ -32,18 +33,20 @@ import org.springframework.stereotype.Component;
  *
  * @author Heiko Scherrer
  */
-@Profile((SpringProfiles.ASYNCHRONOUS_PROFILE))
+@Profile(&quot;ACTIVITI &amp;&amp; &quot; + SpringProfiles.ASYNCHRONOUS_PROFILE)
 @Component
 class ActivitiAmqpEventPropagator implements ActivitiEventListener {
 
-<span class="fc" id="L39">    private static final Logger LOGGER = LoggerFactory.getLogger(&quot;AMQP_EVENTS&quot;);</span>
+<span class="nc" id="L40">    private static final Logger LOGGER = LoggerFactory.getLogger(&quot;AMQP_EVENTS&quot;);</span>
     private final String exchangeName;
     private final AmqpTemplate amqpTemplate;
+    private final ProcessEngine processEngine;
 
-<span class="fc" id="L43">    ActivitiAmqpEventPropagator(@Value(&quot;${owms.process.execution.amqp.exchange-name}&quot;) String exchangeName, AmqpTemplate amqpTemplate) {</span>
-<span class="fc" id="L44">        this.exchangeName = exchangeName;</span>
-<span class="fc" id="L45">        this.amqpTemplate = amqpTemplate;</span>
-<span class="fc" id="L46">    }</span>
+<span class="nc" id="L45">    ActivitiAmqpEventPropagator(@Value(&quot;${owms.process.execution.amqp.exchange-name}&quot;) String exchangeName, AmqpTemplate amqpTemplate, ProcessEngine processEngine) {</span>
+<span class="nc" id="L46">        this.exchangeName = exchangeName;</span>
+<span class="nc" id="L47">        this.amqpTemplate = amqpTemplate;</span>
+<span class="nc" id="L48">        this.processEngine = processEngine;</span>
+<span class="nc" id="L49">    }</span>
 
     /**
      * {@inheritDoc}
@@ -51,29 +54,41 @@ class ActivitiAmqpEventPropagator implements ActivitiEventListener {
     @Measured
     @Override
     public void onEvent(ActivitiEvent event) {
-<span class="nc bnc" id="L54" title="All 2 branches missed.">        switch (event.getType()) {</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        switch (event.getType()) {</span>
             case ACTIVITY_STARTED, ACTIVITY_COMPLETED,
                  PROCESS_STARTED, PROCESS_COMPLETED, PROCESS_CANCELLED, PROCESS_COMPLETED_WITH_ERROR_END_EVENT,
                  JOB_EXECUTION_SUCCESS, JOB_CANCELED, JOB_EXECUTION_FAILURE:
-<span class="nc bnc" id="L58" title="All 2 branches missed.">                if (LOGGER.isTraceEnabled()) {</span>
-<span class="nc" id="L59">                    LOGGER.trace(&quot;Event: [{}, {}, {}, {}]&quot;, event.getType(), event.getExecutionId(), event.getProcessDefinitionId(),</span>
-<span class="nc" id="L60">                            event.getProcessInstanceId());</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">                if (LOGGER.isTraceEnabled()) {</span>
+<span class="nc" id="L62">                    LOGGER.trace(&quot;Event: [{}, {}, {}, {}]&quot;, event.getType(), event.getExecutionId(), event.getProcessDefinitionId(),</span>
+<span class="nc" id="L63">                            event.getProcessInstanceId());</span>
                 }
-<span class="nc" id="L62">                amqpTemplate.convertAndSend(exchangeName, &quot;execution.event.&quot;+event.getType().name(), new WorkflowEvent(event.getType().name(), event.getExecutionId(),</span>
-<span class="nc" id="L63">                        event.getProcessDefinitionId(),</span>
-<span class="nc" id="L64">                        event.getProcessInstanceId()));</span>
-<span class="nc" id="L65">                break;</span>
+<span class="nc" id="L65">                processEngine.getHistoryService().createHistoricProcessInstanceQuery().list().forEach(pi -&gt; {</span>
+                    //System.out.println(pi.toString());
+<span class="nc" id="L67">                });</span>
+<span class="nc" id="L68">                processEngine.getRuntimeService().createExecutionQuery().list().forEach(pi -&gt; {</span>
+<span class="nc" id="L69">                    System.out.println(pi.toString());</span>
+<span class="nc" id="L70">                });</span>
+<span class="nc" id="L71">                amqpTemplate.convertAndSend(exchangeName, &quot;execution.event.&quot;+event.getType().name(), new WorkflowEvent(event.getType().name(), event.getExecutionId(),</span>
+<span class="nc" id="L72">                        event.getProcessDefinitionId(),</span>
+<span class="nc" id="L73">                        event.getProcessInstanceId()));</span>
+<span class="nc" id="L74">                break;</span>
             default:
-<span class="nc" id="L67">                LOGGER.trace(&quot;Unhandled event received: [{}]&quot;, event.getType());</span>
+<span class="nc" id="L76">                LOGGER.trace(&quot;Unhandled event received: [{}]&quot;, event.getType());</span>
+<span class="nc" id="L77">                processEngine.getHistoryService().createHistoricProcessInstanceQuery().list().forEach(pi -&gt; {</span>
+                    //System.out.println(pi.toString());
+<span class="nc" id="L79">                });</span>
+<span class="nc" id="L80">                processEngine.getRuntimeService().createExecutionQuery().list().forEach(pi -&gt; {</span>
+                    //System.out.println(pi.toString());
+<span class="nc" id="L82">                });</span>
         }
-<span class="nc" id="L69">    }</span>
+<span class="nc" id="L84">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public boolean isFailOnException() {
-<span class="nc" id="L76">        return false;</span>
+<span class="nc" id="L91">        return false;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
