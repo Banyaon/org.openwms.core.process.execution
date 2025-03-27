@@ -40,7 +40,7 @@ class ProcessExecutionSecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(x -> x.anyRequest().permitAll())
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf().and()
                 .addFilter(new CorsFilter(new PermitAllCorsConfigurationSource()));
         return http.build();
     }
