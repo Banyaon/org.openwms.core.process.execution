@@ -1,2 +1,1 @@
-https://github.com/Banyaon/org.openwms.core.process.execution/labels/%232er110
-<del>/home/tr4200812/.twinny/embeddings/guestbook-1___^
+https://github.com/openwms/org.openwms.core.process.execution/pull/5#issue-2940532929

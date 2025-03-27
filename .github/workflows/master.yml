@@ -6,7 +6,7 @@ on:
     runs-on: ubuntu-latest
     name: Build & Test Microservice
     steps:
-      - name: Checkout
+      - name: master
         uses: actions/checkout@v2
       - name: Set up JDK 21
         uses: actions/setup-java@v1
